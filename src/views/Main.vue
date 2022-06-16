@@ -84,7 +84,19 @@ import PizzaChart from '../components/PizzaChart.vue';
 export default {
     name: "MainView",
     components: { SideBar, MetricCards, ChartAttendance, Footer, PizzaChart },
-    
+    data() {
+        return {
+            users: []
+        }
+    },
+
+    created() {
+        fetch("/api/users")
+            .then(res => res.json())
+            .then(json => {
+                this.users = json.users
+            })
+    }
 }
 </script>
 

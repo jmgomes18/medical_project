@@ -16088,7 +16088,6 @@
                             value: function() {
                                 var t = this;
                                 return new Promise((function (e, i) {
-                                    console.log(t.el);
                                     if (null !== t.el) {
                                         void 0 === Apex._chartInstances && (Apex._chartInstances = []), t.w.config.chart.id && Apex._chartInstances.push({
                                             id: t.w.globals.chartID,
@@ -16098,7 +16097,6 @@
                                         var a = t.w.config.chart.events.beforeMount;
                                         "function" == typeof a && a(t, t.w), t.events.fireEvent("beforeMount", [t, t.w]), window.addEventListener("resize", t.windowResizeHandler), window.addResizeListener(t.el.parentNode, t.parentResizeHandler);
                                         var s = t.create(t.w.config.series, {});
-                                        console.log(s)
                                         if (!s) return e(t);
                                         t.mount(s).then((function() {
                                             "function" == typeof t.w.config.chart.events.mounted && t.w.config.chart.events.mounted(t, t.w), t.events.fireEvent("mounted", [t, t.w]), e(s)
