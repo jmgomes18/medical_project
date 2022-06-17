@@ -3,6 +3,7 @@
     <body>
         <SideBar />
         <div id="main">
+
             <div class="page-content">
                 <section class="row">
                     <div class="col-12 col-lg-9">
@@ -32,6 +33,9 @@
                                 <h4>Recent Messages</h4>
                             </div>
                             <div class="card-content pb-4">
+                                <div v-if="serverError" data-testid="server-error">
+                                    {{ serverError }}
+                                </div>
                                 <div class="recent-message d-flex px-4 py-3">
                                     <div class="avatar avatar-lg">
                                         <img src="template/assets/images/faces/4.jpg">
@@ -86,7 +90,8 @@ export default {
     components: { SideBar, MetricCards, ChartAttendance, Footer, PizzaChart },
     data() {
         return {
-            users: []
+            users: [],
+            serverError: null,
         }
     },
 
@@ -94,7 +99,11 @@ export default {
         fetch("/api/users")
             .then(res => res.json())
             .then(json => {
-                this.users = json.users
+                if (json.error) {
+                    this.serverError = json.error
+                } else {
+                    this.users = json.todos
+                }
             })
     }
 }
