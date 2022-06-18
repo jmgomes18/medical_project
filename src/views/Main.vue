@@ -63,8 +63,10 @@
                                     </div>
                                 </div>
                                 <div class="px-4">
-                                    <button class='btn btn-block btn-xl btn-outline-primary font-bold mt-3'>Start
-                                        Conversation</button>
+                                    <button class='btn btn-block btn-xl btn-outline-primary font-bold mt-3'
+                                        @click.prevent="logOut">
+                                        Start Conversation
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -95,10 +97,17 @@ export default {
             serverError: null,
         }
     },
+    computed: {
+        currentUser() {
+            return this.$store.state.auth.user;
+        }
+    },
     mounted() {
-        console.log(UserService.getAdminBoard());
+        if (!this.currentUser) {
+            this.$router.push('/');
+        }
         UserService.getAdminBoard().then(
-            response => { this.content = response.data; },
+            response => { this.content = response.data;},
             error => {
                 this.content =
                     (error.response && error.response.data && error.response.data.message) ||
@@ -110,6 +119,13 @@ export default {
             }
         );
     },
+    methods: {
+        logOut() {
+            console.log('cheguei no logout');
+            this.$store.dispatch('auth/logout');
+            this.$router.push('/');
+        }
+    }
 }
 </script>
 

@@ -2,13 +2,14 @@ import api from "@/api/index.js";
 import TokenService from "./token.service";
 
 class AuthService {
-    login({ username, password }) {
+    async login({ username, password }) {
         return api
             .post("/auth/signin", {
                 username,
                 password
             })
             .then((response) => {
+                console.log('response 1', response)
                 if (response.data.accessToken) {
                     TokenService.setUser(response.data);
                 }
@@ -17,11 +18,11 @@ class AuthService {
             });
     }
 
-    logout() {
+    async logout() {
         TokenService.removeUser();
     }
 
-    register({ username, email, password }) {
+    async register({ username, email, password }) {
         return api.post("/auth/signup", {
             username,
             email,

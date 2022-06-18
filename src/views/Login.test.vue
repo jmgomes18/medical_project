@@ -35,10 +35,7 @@
                                     Keep me logged in
                                 </label>
                             </div>
-                            <button :disabled="loading" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">
-                                Login
-                                <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-                            </button>
+                            <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Log in</button>
                             <div v-if="message" class="alert alert-danger" role="alert">
                                 {{ message }}
                             </div>
@@ -94,27 +91,16 @@ export default {
                 this.users = json
             })
         if (this.loggedIn) {
-            this.$router.push("/admin");
+            //this.$router.push("/admin");
         }
     },
     methods: {
         handleLogin(user) {
-            this.loading = true;
-            console.log('user Login', user);
-            this.$store.dispatch("auth/login", user).then(
-                () => {
-                    this.$router.push("/admin");
-                },
-                (error) => {
-                    this.loading = false;
-                    this.message =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-                }
-            );
+            fetch('api/auth/signin', { method: 'post', body: user })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
         },
     },
 };

@@ -14,7 +14,7 @@ class UserService {
     // }
 
     getAdminBoard() {
-        return api.get('/test/admin');
+        return api.get('/admin');
     }
 }
 

@@ -1,4 +1,5 @@
-import { Model, Server } from 'miragejs'
+
+import { Model, Response, Server } from 'miragejs'
 
 export function makeServer({ environment = "development" } = {}) {
     return new Server({
@@ -21,22 +22,30 @@ export function makeServer({ environment = "development" } = {}) {
                 return schema.users.all();
             })
 
+            this.get("/admin", (schema) => {
+                return schema.users.all();
+            })
+
             this.post('/auth/signin', (schema, request) => {
-                let headers = {'Content-Type': 'application/json'}
-                let user = request.requestBody
-                console.log(schema.users.findBy({username: user.username}));
-                //console.log(user)
-                if (schema.users.findBy({ username: user.username, password: user.password })) {
+                let headers = { 'Content-Type': 'application/json' }
+                let attrs = JSON.parse(request.requestBody)
+
+                let checkUser = schema.users.findBy({ username: attrs.username, password: attrs.password })
+                if (!checkUser) {
                     return new Response(
-                        201,
+                        400,
                         headers,
-                        { message: `Success! ${user.username} you're now logged in` }
+                        { message: 'Invalid Credentials' }
                     )
                 }
                 return new Response(
-                    403,
+                    200,
                     headers,
-                    { message: 'Unauthorized' }
+                    {
+                        username: attrs.username,
+                        password: attrs.password,
+                        accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlQHRlc3RlLmNvbSIsInBhc3N3b3JkIjoiMTIzNDU2In0.Na0UMsy-zNb5pFhPICNA386-CeC6krS0wQ-_3FI4vEg"
+                    }
                 )
             }, { timing: 2000 })
         },
