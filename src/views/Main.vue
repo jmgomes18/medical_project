@@ -121,7 +121,6 @@ export default {
     },
     methods: {
         logOut() {
-            console.log('cheguei no logout');
             this.$store.dispatch('auth/logout');
             this.$router.push('/');
         }

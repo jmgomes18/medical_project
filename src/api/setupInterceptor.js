@@ -5,23 +5,18 @@ const setupInterceptor = (store) => {
     axiosInstance.interceptors.request.use(
         (config) => {
             const token = TokenService.getLocalAccessToken();
-            console.log('token',token)
             if (token) {
                 config.headers["Authorization"] = 'Bearer ' + token;
-                console.log('cheguei no token');
             }
-            console.log('config',config)
             return config;
         },
         (error) => {
-            console.log('cheguei no erro');
             return Promise.reject(error);
         }
     );
 
     axiosInstance.interceptors.response.use(
         (res) => {
-            console.log('response',res);
             return res;
         },
         async (err) => {
