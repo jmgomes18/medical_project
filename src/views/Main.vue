@@ -3,7 +3,6 @@
     <body>
         <SideBar />
         <div id="main">
-
             <div class="page-content">
                 <section class="row">
                     <div class="col-12 col-lg-9">
@@ -81,9 +80,11 @@
 <script>
 import ChartAttendance from '@/components/ChartAttendance.vue';
 import SideBar from '@/components/SideBar.vue';
+import EventBus from "../common/EventBus";
 import Footer from '../components/Footer.vue';
 import MetricCards from '../components/MetricCards.vue';
 import PizzaChart from '../components/PizzaChart.vue';
+import UserService from '../services/user.service';
 
 export default {
     name: "MainView",
@@ -94,18 +95,21 @@ export default {
             serverError: null,
         }
     },
-
-    created() {
-        fetch("/api/users")
-            .then(res => res.json())
-            .then(json => {
-                if (json.error) {
-                    this.serverError = json.error
-                } else {
-                    this.users = json.todos
+    mounted() {
+        console.log(UserService.getAdminBoard());
+        UserService.getAdminBoard().then(
+            response => { this.content = response.data; },
+            error => {
+                this.content =
+                    (error.response && error.response.data && error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+                if (error.response && error.response.status === 403) {
+                    EventBus.dispatch("logout");
                 }
-            })
-    }
+            }
+        );
+    },
 }
 </script>
 

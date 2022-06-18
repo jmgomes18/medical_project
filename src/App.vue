@@ -3,12 +3,26 @@
 </template>
 
 <script>
+import EventBus from "./common/EventBus";
 export default {
+    methods: {
+        logOut() {
+            this.$store.dispatch('auth/logout');
+            this.$router.push('/login');
+        }
+    },
     mounted() {
+        EventBus.on("logout", () => {
+            this.logOut();
+        });
+
         let dashboard = document.createElement('script')
         dashboard.setAttribute('src', 'template/assets/js/pages/dashboard.js')
         dashboard.async = true;
         return document.head.appendChild(dashboard)
+    },
+    beforeUnmount() {
+        EventBus.remove("logout");
     }
 }
 </script>

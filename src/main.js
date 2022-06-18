@@ -4,8 +4,17 @@ import router from './router'
 import store from './store'
 import { makeServer } from './server'
 import { createApp } from 'vue'
+import { VeeValidate } from 'vee-validate';
 
-createApp(App).use(store).use(router).mount('#app');
+import setupInterceptor from './api/setupInterceptor';
+
+setupInterceptor(store);
+
+createApp(App)
+    .use(store)
+    .use(router)
+    .use(VeeValidate)
+    .mount('#app');
 
 if (process.env.NODE_ENV === "development") {
     makeServer();
