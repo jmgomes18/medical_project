@@ -8,7 +8,6 @@ import { VeeValidate } from 'vee-validate';
 
 import setupInterceptor from './api/setupInterceptor';
 
-console.log('store', store);
 setupInterceptor(store);
 
 createApp(App)
