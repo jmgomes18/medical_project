@@ -91,7 +91,7 @@ export default {
                 this.users = json
             })
         if (this.loggedIn) {
-            //this.$router.push("/admin");
+            this.$router.push("/admin");
         }
     },
     methods: {

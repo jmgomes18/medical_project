@@ -48,6 +48,30 @@ export function makeServer({ environment = "development" } = {}) {
                     }
                 )
             }, { timing: 2000 })
+            this.post('auth/signup', (schema, request) => {
+                let headers = { 'Content-Type': 'application/json' }
+                let attrs = JSON.parse(request.requestBody)
+
+                let content = schema.users.findBy({ username: attrs.username, password: attrs.password })
+                if (!content) {
+                    schema.users.create(content);
+                    return new Response(
+                        201,
+                        headers,
+                        {
+                            message: 'User created successfully',
+                            user: attrs
+                        }
+                    );
+                }
+                return new Response(
+                    409,
+                    headers,
+                    {
+                        message: "User already exists"
+                    }
+                );
+            });
         },
     })
 }
