@@ -10,10 +10,10 @@ export default {
             this.logOut();
         });
 
-        let dashboard = document.createElement('script')
-        dashboard.setAttribute('src', 'template/assets/js/pages/dashboard.js')
+        let dashboard = document.createElement('script');
+        dashboard.setAttribute('src', 'template/assets/js/pages/dashboard.js');
         dashboard.async = true;
-        return document.head.appendChild(dashboard)
+        return document.head.appendChild(dashboard);
     },
     beforeUnmount() {
         EventBus.remove("logout");

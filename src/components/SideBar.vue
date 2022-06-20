@@ -1,8 +1,9 @@
 <template>
+    <div id="app"></div>
     <div id="sidebar" class="active">
         <div class="sidebar-wrapper active">
             <div class="sidebar-header position-relative">
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between">
                     <div class="logo">
                         <a href="index.html"><img src="template/assets/images/logo/logo.svg" alt="Logo" srcset=""></a>
                     </div>
@@ -10,120 +11,64 @@
             </div>
             <div class="sidebar-menu">
                 <ul class="menu">
-                    <li class="sidebar-title">Menu</li>
+                    <li class="sidebar-title">Pacientes</li>
 
-                    <li class="sidebar-item active ">
-                        <a href="index.html" class='sidebar-link'>
-                            <i class="bi bi-grid-fill"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item  has-sub">
-                        <a href="#" class='sidebar-link '>
-                            <i class="bi bi-collection-fill "></i>
-                            <span>Extra Components</span>
-                        </a>
-                        <ul class="submenu ">
-                            <li class="submenu-item ">
-                                <a href="extra-component-avatar.html">Avatar</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="extra-component-sweetalert.html">Sweet Alert</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="extra-component-toastify.html">Toastify</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="extra-component-rating.html">Rating</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="extra-component-divider.html">Divider</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="sidebar-item  ">
-                        <a href="application-gallery.html" class='sidebar-link'>
-                            <i class="bi bi-image-fill"></i>
-                            <span>Photo Gallery</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item  ">
-                        <a href="application-checkout.html" class='sidebar-link'>
-                            <i class="bi bi-basket-fill"></i>
-                            <span>Checkout Page</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item  has-sub">
+                    <li class="sidebar-item has-sub" v-for="folder in pacientes" :key="folder">
                         <a href="#" class='sidebar-link'>
-                            <i class="bi bi-person-badge-fill"></i>
-                            <span>Authentication</span>
+                            <i class="bi bi-file-earmark-medical-fill"></i>
+                            <span @click="toggle(folder.name)"> {{ folder.name }}</span>
                         </a>
-                        <ul class="submenu ">
-                            <li class="submenu-item ">
-                                <a href="auth-login.html">Login</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="auth-register.html">Register</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="auth-forgot-password.html">Forgot Password</a>
+                        <ul class="submenu" v-show="false" :id="folder.name">
+                            <li class="submenu-item" v-for="page in folder.pages" :key="page"
+                                style="margin-left: 20px;">
+                                <a>{{ page.name }}</a>
                             </li>
                         </ul>
                     </li>
 
-                    <li class="sidebar-item  has-sub">
+                    <li class="sidebar-title "> Financeiro </li>
+
+                    <li class="sidebar-item has-sub" v-for="folder in financeiro" :key="folder">
                         <a href="#" class='sidebar-link'>
-                            <i class="bi bi-x-octagon-fill"></i>
-                            <span>Errors</span>
+                            <i class="bi bi-collection-fill"></i>
+                            <span @click="toggle(folder.name)"> {{ folder.name }}</span>
                         </a>
-                        <ul class="submenu ">
-                            <li class="submenu-item ">
-                                <a href="error-403.html">403</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="error-404.html">404</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="error-500.html">500</a>
+                        <ul class="submenu" v-show="false" :id="folder.name">
+                            <li class="submenu-item" v-for="page in folder.pages" :key="page"
+                                style="margin-left: 20px;">
+                                <a>{{ page.name }}</a>
                             </li>
                         </ul>
                     </li>
 
-                    <li class="sidebar-title">Administrativo</li>
+                    <li class="sidebar-title "> Relatórios </li>
 
-                    <li class="sidebar-item has-sub">
-                        <div v-for="folder in folders" :key="folder">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-collection-fill"></i>
-                                <span @click="toggle(folder.name)"> {{ folder.name }}</span>
-                            </a>
-                            <ul class="submenu" v-show="false" :id="folder.name">
-                                <li class="submenu-item" v-for="page in folder.pages" :key="page"
-                                    style="margin-left: 20px;">
-                                    <a>{{ page.name }}</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <li class="sidebar-item has-sub" v-for="folder in relatorios" :key="folder">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-collection-fill"></i>
+                            <span @click="toggle(folder.name)"> {{ folder.name }}</span>
+                        </a>
+                        <ul class="submenu" v-show="false" :id="folder.name">
+                            <li class="submenu-item" v-for="page in folder.pages" :key="page"
+                                style="margin-left: 20px;">
+                                <a>{{ page.name }}</a>
+                            </li>
+                        </ul>
                     </li>
 
-                    <li class="sidebar-title">Administrativo</li>
+                    <li class="sidebar-title "> Controle de estoque </li>
 
-                    <li class="sidebar-item has-sub">
-                        <div v-for="folder in teste" :key="folder">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-collection-fill"></i>
-                                <span @click="toggle(folder.name)"> {{ folder.name }}</span>
-                            </a>
-                            <ul class="submenu" v-show="false" :id="folder.name">
-                                <li class="submenu-item" v-for="page in folder.pages" :key="page"
-                                    style="margin-left: 20px;">
-                                    <a>{{ page.name }}</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <li class="sidebar-item has-sub" v-for="folder in estoque" :key="folder">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-collection-fill"></i>
+                            <span @click="toggle(folder.name)"> {{ folder.name }}</span>
+                        </a>
+                        <ul class="submenu" v-show="false" :id="folder.name">
+                            <li class="submenu-item" v-for="page in folder.pages" :key="page"
+                                style="margin-left: 20px;">
+                                <a>{{ page.name }}</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -137,15 +82,21 @@ export default {
     name: 'SideBar',
     data() {
         return {
-            folders: [
-                { name: 'Search Engine', pages: [{ name: 'Google' }, { name: 'Yahoo!' }, { name: 'goo!' }] },
-                { name: 'SNS', pages: [{ name: 'Facebook' }, { name: 'Twitter' }, { name: 'Google+' }, { name: 'mixi' }] },
-                { name: 'Shipping', pages: [{ name: 'Amazon' }, { name: 'ebay' }] }
+            pacientes: [
+                { name: 'Gerenciar pacientes', pages: [{ name: 'Adicionar' }, { name: 'Editar' }, { name: 'Financeiro' }] },
             ],
-            teste: [
-                { name: 'Engine', pages: [{ name: 'Google' }, { name: 'Yahoo!' }, { name: 'goo!' }] },
-                { name: 'Menu', pages: [{ name: 'Facebook' }, { name: 'Twitter' }, { name: 'Google+' }, { name: 'mixi' }] },
-                { name: 'Dropdown', pages: [{ name: 'Amazon' }, { name: 'ebay' }] }
+            financeiro: [
+                { name: 'Vendas e faturamentos', pages: [{ name: 'Novo Orçamento' }, { name: 'Nova fatura' }, { name: 'Editar fatura na lista de fatura/Orçamentos' }] },
+                { name: 'Lançamentos', pages: [{ name: 'Novo Orçamento' }, { name: 'Nova fatura' }, { name: 'Editar fatura na lista de fatura/Orçamentos' }] },
+                { name: 'Dashboard', pages: [{ name: 'Novo Orçamento' }, { name: 'Nova fatura' }, { name: 'Editar fatura na lista de fatura/Orçamentos' }] },
+            ],
+            relatorios: [
+                { name: 'Filtros', pages: [{ name: 'TIpo de relatório' }, { name: 'Colaborador/Usuário' }, { name: 'Unidade/Filial' }, { name: 'Tabela/Convênio' }, { name: 'Paciente' }] },
+                { name: 'Tipos de relatório', pages: [{ name: 'Novo Orçamento' }, { name: 'Nova fatura' }, { name: 'Editar fatura na lista de fatura/Orçamentos' }] },
+                { name: 'Exportar dados', pages: [{ name: 'Novo Orçamento' }, { name: 'Nova fatura' }, { name: 'Editar fatura na lista de fatura/Orçamentos' }] },
+            ],
+            estoque: [
+                { name: 'Gerenciar estoque', pages: [{ name: 'Novo Item' }, { name: 'Registrar entradas' }, { name: 'Registrar saídas' }, {name: 'Listagem de itens'}] },
             ]
         }
     },
@@ -157,6 +108,12 @@ export default {
                 document.getElementById(idname).style.display = "none";
             }
         },
+    },
+    mounted() {
+        let dashboard = document.createElement('script');
+        dashboard.setAttribute('src', 'template/assets/js/app.js')
+        dashboard.async = true;
+        return document.head.appendChild(dashboard)
     }
 }
 </script>
