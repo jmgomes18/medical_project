@@ -44,7 +44,7 @@
                             </div>
                         </Form>
                         <div class="text-center mt-5 text-lg fs-4">
-                            <p class="text-gray-600">Don't have an account? <a href="auth-register.html"
+                            <p class="text-gray-600">Don't have an account? <a @click="registration()"
                                     class="font-bold">Sign
                                     up</a>.</p>
                             <p><a class="font-bold" href="auth-forgot-password.html">Forgot password?</a>.</p>
@@ -115,6 +115,9 @@ export default {
                 }
             );
         },
+        registration() {
+            this.$router.push('/register');
+        }
     },
 };
 </script>
